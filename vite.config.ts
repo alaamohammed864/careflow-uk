@@ -3,9 +3,8 @@ import react from "@vitejs/plugin-react";
 import path from "path";
 import { componentTagger } from "lovable-tagger";
 
-// https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
-  // تأكد من إضافة هذا السطر ليعمل الموقع على GitHub Pages
+  // تأكد أن السطر يبدأ وينتهي بـ /
   base: "/careflow-uk/", 
   server: {
     host: "::",
@@ -21,4 +20,8 @@ export default defineConfig(({ mode }) => ({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  build: {
+    // هذا السطر يضمن خروج الملفات في المجلد الصحيح لـ GitHub Pages
+    outDir: "dist",
+  }
 }));
