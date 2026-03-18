@@ -5,17 +5,16 @@ import { componentTagger } from "lovable-tagger";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
-  base: "/careflow-uk/", // أضف هذا السطر هنا بالضبط
+  // تأكد من إضافة هذا السطر ليعمل الموقع على GitHub Pages
+  base: "/careflow-uk/", 
   server: {
     host: "::",
     port: 8080,
-    hmr: {
-      overlay: false,
-    },
   },
   plugins: [
     react(),
-    mode === "development" && componentTagger(),
+    mode === 'development' &&
+    componentTagger(),
   ].filter(Boolean),
   resolve: {
     alias: {
