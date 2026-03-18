@@ -12,26 +12,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
       - name: Set up Node
         uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: 'npm'
-
       - name: Install Dependencies
-        # هذا السطر هو الأهم لحل مشكلة التعارض التي تظهر في صورك
+        # هذا السطر يحل مشكلة تعارض الإصدارات التي ظهرت في الصور
         run: npm install --legacy-peer-deps
-
       - name: Build Project
-        # تم تعديل هذا السطر لضمان العثور على vite حتى لو لم تكن في المسار العالمي
         run: npx vite build
-
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: './dist'
-
   deploy:
     needs: build
     runs-on: ubuntu-latest
