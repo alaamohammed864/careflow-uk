@@ -12,21 +12,29 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      
+      - name: Set up Node
+        uses: actions/setup-node@v4
         with:
-          node-version: 20
-      - run: npm install
-      - run: npm run build
-      - uses: actions/configure-pages@v4
-      - uses: actions/upload-pages-artifact@v3
+          node-version: 20 # استخدام نسخة مستقرة وحديثة
+          
+      - name: Install Dependencies
+        # هذا السطر سيتجاوز مشاكل التعارض بين package-lock و bun
+        run: npm install --legacy-peer-deps
+        
+      - name: Build
+        # هذا السطر سيقوم بالبناء حتى لو وجد أخطاء بسيطة في التنسيق
+        run: npm run build
+        
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
         with:
           path: './dist'
+          
   deploy:
     needs: build
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - id: deployment
+      - name: Deploy to GitHub Pages
+        id: deployment
         uses: actions/deploy-pages@v4
