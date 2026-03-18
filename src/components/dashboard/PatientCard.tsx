@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { Patient, priorityConfig } from '@/types/patient';
 import { Heart, Wind, Thermometer, Activity, Battery, TrendingDown, TrendingUp, Minus, Wifi } from 'lucide-react';
+import CountdownTimer from './CountdownTimer';
 
 interface PatientCardProps {
   patient: Patient;
@@ -47,6 +48,7 @@ const PatientCard = ({ patient, onClick }: PatientCardProps) => {
           </div>
         </div>
         <div className="flex items-center gap-2 text-xs">
+          <CountdownTimer arrivalTime={patient.arrivalTime} priority={patient.priority} compact />
           {patient.sensorBattery < 50 && (
             <span className="flex items-center gap-1 text-warning">
               <Battery className="w-3 h-3" />
@@ -57,7 +59,7 @@ const PatientCard = ({ patient, onClick }: PatientCardProps) => {
         </div>
       </div>
 
-      {/* Complaint & Location */}
+      {/* Complaint */}
       <p className="text-sm text-muted-foreground mb-3">{patient.chiefComplaint}</p>
 
       {/* Vitals Grid */}
