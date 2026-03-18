@@ -14,16 +14,215 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      audit_log: {
+        Row: {
+          action: string
+          created_at: string
+          details: Json | null
+          entity_id: string | null
+          entity_type: string
+          id: string
+          user_id: string | null
+          user_name: string | null
+        }
+        Insert: {
+          action: string
+          created_at?: string
+          details?: Json | null
+          entity_id?: string | null
+          entity_type: string
+          id?: string
+          user_id?: string | null
+          user_name?: string | null
+        }
+        Update: {
+          action?: string
+          created_at?: string
+          details?: Json | null
+          entity_id?: string | null
+          entity_type?: string
+          id?: string
+          user_id?: string | null
+          user_name?: string | null
+        }
+        Relationships: []
+      }
+      patients: {
+        Row: {
+          age: number
+          arrival_time: string
+          blood_pressure_diastolic: number | null
+          blood_pressure_systolic: number | null
+          chief_complaint: string
+          created_at: string
+          created_by: string | null
+          gender: string
+          heart_rate: number | null
+          id: string
+          location: string
+          name: string
+          news2_score: number
+          patient_code: string
+          priority: number
+          respiratory_rate: number | null
+          sensor_battery: number
+          sensor_connected: boolean
+          spo2: number | null
+          status: string
+          temperature: number | null
+          updated_at: string
+          vitals_trend: string
+        }
+        Insert: {
+          age: number
+          arrival_time?: string
+          blood_pressure_diastolic?: number | null
+          blood_pressure_systolic?: number | null
+          chief_complaint: string
+          created_at?: string
+          created_by?: string | null
+          gender: string
+          heart_rate?: number | null
+          id?: string
+          location?: string
+          name: string
+          news2_score?: number
+          patient_code: string
+          priority?: number
+          respiratory_rate?: number | null
+          sensor_battery?: number
+          sensor_connected?: boolean
+          spo2?: number | null
+          status?: string
+          temperature?: number | null
+          updated_at?: string
+          vitals_trend?: string
+        }
+        Update: {
+          age?: number
+          arrival_time?: string
+          blood_pressure_diastolic?: number | null
+          blood_pressure_systolic?: number | null
+          chief_complaint?: string
+          created_at?: string
+          created_by?: string | null
+          gender?: string
+          heart_rate?: number | null
+          id?: string
+          location?: string
+          name?: string
+          news2_score?: number
+          patient_code?: string
+          priority?: number
+          respiratory_rate?: number | null
+          sensor_battery?: number
+          sensor_connected?: boolean
+          spo2?: number | null
+          status?: string
+          temperature?: number | null
+          updated_at?: string
+          vitals_trend?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          full_name: string
+          id: string
+        }
+        Insert: {
+          created_at?: string
+          full_name?: string
+          id: string
+        }
+        Update: {
+          created_at?: string
+          full_name?: string
+          id?: string
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
+      vitals_history: {
+        Row: {
+          blood_pressure_diastolic: number | null
+          blood_pressure_systolic: number | null
+          heart_rate: number | null
+          id: string
+          news2_score: number | null
+          patient_id: string
+          recorded_at: string
+          respiratory_rate: number | null
+          spo2: number | null
+          temperature: number | null
+        }
+        Insert: {
+          blood_pressure_diastolic?: number | null
+          blood_pressure_systolic?: number | null
+          heart_rate?: number | null
+          id?: string
+          news2_score?: number | null
+          patient_id: string
+          recorded_at?: string
+          respiratory_rate?: number | null
+          spo2?: number | null
+          temperature?: number | null
+        }
+        Update: {
+          blood_pressure_diastolic?: number | null
+          blood_pressure_systolic?: number | null
+          heart_rate?: number | null
+          id?: string
+          news2_score?: number | null
+          patient_id?: string
+          recorded_at?: string
+          respiratory_rate?: number | null
+          spo2?: number | null
+          temperature?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "vitals_history_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "patients"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "doctor" | "nurse" | "supervisor"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +349,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["doctor", "nurse", "supervisor"],
+    },
   },
 } as const
